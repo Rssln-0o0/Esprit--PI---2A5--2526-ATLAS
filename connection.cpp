@@ -35,9 +35,9 @@ bool Connection::createConnection()
     }
 
     // Replace with your ODBC DSN / project name, username and password
-    db.setDatabaseName("Source_Projet2A");
-    db.setUserName("projet");
-    db.setPassword("projet");
+    db.setDatabaseName("your_odbc_dsn"); // Ex: "Source_Projet2A"
+    db.setUserName("your_username");
+    db.setPassword("your_password");
     // ODBC 3.x pour Oracle : gestion correcte des transactions (commit/rollback)
     db.setConnectOptions("SQL_ATTR_ODBC_VERSION=SQL_OV_ODBC3");
 

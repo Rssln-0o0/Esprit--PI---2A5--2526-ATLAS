@@ -1,0 +1,6 @@
+google-generativeai
+opencv-python
+qrcode
+SpeechRecognition
+pocketsphinx
+PyAudio

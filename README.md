@@ -1,144 +1,159 @@
 # ATLAS Smart Port
 
-ATLAS Smart Port est une application desktop de gestion pour un environnement portuaire maritime connecte. Le projet combine une interface Qt/C++, une connexion a une base de donnees Oracle, des firmwares Arduino et ESP32, ainsi que des scripts Python pour la generation de QR codes, la detection de visage, les commandes vocales et l'assistant de stock ATLAS.
+ATLAS Smart Port est une application desktop destinée à la gestion d'un environnement portuaire maritime connecté. Elle regroupe une interface Qt/C++, une connexion à une base de données Oracle, plusieurs modules de gestion métier, des scripts Python d'assistance et des firmwares pour cartes Arduino et ESP32.
 
-Ce depot est prepare pour une publication sur l'organisation GitHub ESPRIT. Une personne externe au projet doit pouvoir le cloner, installer les outils documentes, configurer l'environnement, compiler l'application et comprendre le materiel necessaire.
+Ce dépôt présente le code source, les scripts et les éléments embarqués nécessaires à la compréhension, à la compilation et à la démonstration du projet.
 
-## Fonctionnalites
+## Présentation
 
-- Tableau de bord desktop construit avec Qt Widgets et des fichiers Qt Designer
-- Modules CRUD pour les employes, pecheurs, bateaux, quais, equipements et stocks
-- Acces a une base Oracle via une source de donnees ODBC
-- Assistant de stock avec reponses locales et support optionnel de l'API Gemini
-- Generation de QR codes pour les workflows de l'application
-- Script de detection de visage avec OpenCV
-- Script de reconnaissance vocale pour les commandes en francais
-- Communication serie avec Arduino Uno, ESP32-CAM, RFID, GPS et firmwares Smart Port
-- Dossiers `demo/` et `docs/` reserves aux captures, videos, schemas et notes techniques
+Le projet ATLAS vise à centraliser plusieurs fonctionnalités liées à la gestion d'un smart port :
 
-## Technologies
+- gestion des employés, pêcheurs, bateaux, quais, équipements et stocks ;
+- suivi des opérations à travers une interface graphique Qt ;
+- communication avec des cartes Arduino et ESP32 via port série ;
+- intégration de capteurs et d'actionneurs pour la partie IoT ;
+- génération de QR codes pour certains workflows applicatifs ;
+- détection de visage avec OpenCV ;
+- reconnaissance vocale en français ;
+- assistant de stock avec réponses locales et support optionnel de l'API Gemini.
 
-| Couche | Outils |
+## Technologies utilisées
+
+| Couche | Technologies |
 | --- | --- |
 | Application desktop | C++17, Qt Widgets, Qt Designer |
 | Modules Qt | Core, GUI, Charts, SQL, PrintSupport, Network, Multimedia, SerialPort, TextToSpeech, Quick, Location |
-| Base de donnees | Oracle via Qt SQL ODBC |
-| Embarque et IoT | Arduino Uno, ESP32, ESP32-CAM, RFID RC522, GPS, capteurs, actionneurs |
-| Scripts Python | Python 3, qrcode, OpenCV, SpeechRecognition, Google Gemini optionnel |
+| Base de données | Oracle via Qt SQL ODBC |
+| Embarqué et IoT | Arduino Uno, ESP32, ESP32-CAM, RFID RC522, GPS, capteurs, actionneurs |
+| Scripts Python | Python 3, qrcode, OpenCV, SpeechRecognition, API Google Gemini  |
 
-## Structure du depot
+## Structure du dépôt
 
 ```text
 .
 |-- arduino/                         Firmwares Arduino et ESP32
-|-- esp32 cam/                       Firmware serie ESP32-CAM
-|-- demo/                            Captures, GIFs, APKs, videos ou liens de demo publics
-|-- docs/                            Architecture, schemas de cablage, notes base de donnees et API
-|-- images/                          Images et ressources de l'interface
+|-- esp32_cam/                       Firmware série ESP32-CAM
+|-- demo/                            Captures, vidéos, GIFs ou liens de démonstration
+|-- docs/                            Documentation technique, schémas et notes de configuration
+|-- images/                          Images et ressources utilisées par l'interface
 |-- musique/                         Ressources audio
 |-- python/                          Scripts Python additionnels
 |-- *.cpp, *.h, *.ui                 Code source de l'application Qt/C++
-|-- test.pro.pro                     Fichier projet qmake Qt
-|-- .env.example                     Modele des variables d'environnement
-|-- .gitignore                       Fichiers locaux exclus de Git
+|-- test.pro.pro                     Fichier projet qmake
+|-- .env.example                     Modèle public des variables d'environnement
+|-- .gitignore                       Fichiers locaux exclus du versionnement
 ```
 
-## Prerequis
+## Prérequis
 
-- OS cible teste : Windows 10 ou Windows 11
-- Qt : Qt 5.15+ ou Qt 6.x avec les modules listes dans `test.pro.pro`
-- Compilateur : MinGW, MSVC 2022 ou un autre compilateur C++17 compatible avec Qt
-- Driver Oracle ODBC et DSN configure
-- Python 3.10+ pour les scripts d'aide
-- Arduino IDE ou `arduino-cli` pour televerser les firmwares
-- Materiel physique pour la partie IoT, dont Arduino Uno ou Nano, ESP32, ESP32-CAM, RFID RC522, GPS, capteurs et actionneurs utilises par les sketches Smart Port
+L'environnement suivant est recommandé pour compiler et exécuter le projet :
+
+- Windows 10 ou Windows 11 ;
+- Qt 5.15+ ou Qt 6.x avec les modules indiqués dans `test.pro.pro` ;
+- MinGW, MSVC 2022 ou un compilateur C++17 compatible avec Qt ;
+- driver Oracle ODBC installé ;
+- source de données ODBC configurée pour la base Oracle ;
+- Python 3.10+ pour les scripts d'assistance ;
+- Arduino IDE ou `arduino-cli` pour téléverser les firmwares ;
+- matériel IoT compatible avec les sketches fournis : Arduino Uno ou Nano, ESP32, ESP32-CAM, module RFID RC522, GPS, capteurs et actionneurs.
 
 ## Variables d'environnement
 
-Copier le fichier d'exemple avant d'executer les outils locaux :
+Le fichier `.env.example` sert de modèle public pour la configuration locale.
+
+Créer un fichier `.env` local à partir du modèle :
 
 ```bash
 cp .env.example .env
 ```
 
-Sur Windows PowerShell :
+Sous Windows PowerShell :
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Remplir uniquement le fichier local `.env`. Ne jamais commiter de vraies cles API, mots de passe de base de donnees, identifiants Oracle ou secrets lies aux appareils.
-
-Notes sur le code actuel :
+Notes de configuration :
 
 - `atlas_ai_stock.py` lit `GEMINI_API_KEY` ou `STOCK_GEMINI_API_KEY`.
-- `connection.cpp` contient actuellement le DSN Oracle, le nom d'utilisateur et le mot de passe directement dans le code. Garder `.env.example` comme reference publique de configuration et mettre a jour la couche de connexion C++ si un chargement runtime des variables d'environnement est souhaite.
+- `.env.example` documente les variables attendues pour faciliter une future migration vers une configuration chargée au runtime.
 
-## Configuration de la base de donnees
+## Configuration de la base de données
 
-1. Installer le driver Oracle ODBC.
-2. Creer une source de donnees ODBC avec le DSN utilise par le projet.
-3. Creer ou importer le schema de base de donnees requis.
-4. Placer les scripts SQL ou scripts de seed dans `docs/` s'ils peuvent etre publies sans risque.
-5. Ne jamais commiter un dump reel de base de donnees contenant des donnees privees.
+L'application utilise Oracle via une connexion ODBC Qt SQL. Avant le lancement :
 
-Les valeurs de connexion locales attendues sont documentees dans `.env.example`.
+1. installer le driver Oracle ODBC ;
+2. créer une source de données ODBC avec le DSN attendu par le projet ;
+3. créer ou importer le schéma de base de données nécessaire ;
+4. placer les scripts SQL publiables dans `docs/` ;
+5. éviter tout dump contenant des données privées ou des identifiants réels.
+
+Les informations de connexion à renseigner localement sont indiquées dans `.env.example`.
 
 ## Installation des scripts Python
 
-Creer un environnement virtuel :
+Créer un environnement virtuel :
 
 ```bash
 python -m venv .venv
 ```
 
-L'activer sur Windows PowerShell :
+Activer l'environnement sous Windows PowerShell :
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-Installer les dependances des scripts :
+Installer les dépendances utilisées par les scripts :
 
 ```bash
-pip install google-generativeai opencv-python qrcode SpeechRecognition pocketsphinx PyAudio
+pip install -r docs/requirements.txt
 ```
 
-Si l'installation de `PyAudio` echoue sous Windows, installer une wheel compatible avec votre version de Python, puis relancer la commande.
+Selon la version de Python utilisée sous Windows, `PyAudio` peut nécessiter l'installation préalable d'une wheel compatible.
 
-## Compilation et lancement de l'application Qt
+## Compilation et exécution de l'application Qt
 
-### Qt Creator
+### Avec Qt Creator
 
 1. Ouvrir `test.pro.pro` dans Qt Creator.
-2. Selectionner un kit Desktop avec les modules Qt requis.
-3. Executer qmake.
+2. Sélectionner un kit Desktop contenant les modules Qt requis.
+3. Exécuter qmake.
 4. Compiler le projet.
 5. Lancer l'application depuis Qt Creator.
 
-### Ligne de commande avec qmake
+### Avec qmake en ligne de commande
 
-Depuis la racine du depot :
+Depuis la racine du dépôt :
 
 ```bash
 qmake test.pro.pro
 make
 ```
 
-Sur Windows avec MinGW :
+Sous Windows avec MinGW :
 
 ```powershell
 qmake .\test.pro.pro
 mingw32-make
 ```
 
-Lancer ensuite l'executable genere depuis le dossier de build.
+L'exécutable généré se trouve dans le dossier de build configuré par Qt.
 
-## Televersement des firmwares
+## Lancement
 
-Ouvrir le fichier `.ino` necessaire dans Arduino IDE, selectionner la bonne carte et le bon port, puis utiliser Verifier et Televerser.
+Après compilation, lancer l'exécutable généré depuis le dossier de build Qt.
 
-Principaux sketches :
+Sous Windows, l'application peut aussi être lancée directement depuis Qt Creator avec le bouton Run après configuration du kit Desktop.
+
+Avant le lancement, vérifier que :
+- la source ODBC Oracle est configurée ;
+- le fichier `.env` local existe ;
+- les ressources nécessaires sont présentes dans les dossiers `images/`, `musique/` et `python/`.
+
+## Firmwares embarqués
+
+Les firmwares sont fournis sous forme de sketches Arduino. Chaque sketch doit être ouvert dans Arduino IDE ou compilé avec `arduino-cli`, en sélectionnant la carte et le port série correspondant au matériel utilisé.
 
 | Firmware | Chemin |
 | --- | --- |
@@ -147,54 +162,33 @@ Principaux sketches :
 | RFID RC522 Uno | `arduino/rfid_rc522_uno/rfid_rc522_uno.ino` |
 | ESP32 GPS | `arduino/esp32_gps/esp32_gps.ino` |
 | ESP32 GPS WiFi | `arduino/esp32_gps_wifi/esp32_gps_wifi.ino` |
-| ESP32-CAM serie | `esp32 cam/esp32_cam_serial/esp32_cam_serial.ino` |
-| Systeme Quai | `arduino/Quai_system/Quai_sys/Quai_sys.ino` |
+| ESP32-CAM série | `esp32 cam/esp32_cam_serial/esp32_cam_serial.ino` |
+| Système Quai | `arduino/Quai_system/Quai_sys/Quai_sys.ino` |
 
-Exemple avec `arduino-cli` :
+Exemple de compilation et de téléversement avec `arduino-cli` :
 
 ```bash
 arduino-cli compile --fqbn arduino:avr:uno arduino/smart_port_sensors_actuators
 arduino-cli upload -p COM3 --fqbn arduino:avr:uno arduino/smart_port_sensors_actuators
 ```
 
-Remplacer `COM3` et le FQBN de la carte par les valeurs correspondant a votre materiel.
+Le port série et le FQBN doivent être adaptés à la carte utilisée.
 
-## Checklist demo et documentation
+## Démonstration
 
-Le guide de publication ESPRIT demande aux projets IoT d'inclure une preuve externe du bon fonctionnement du materiel. Avant la soumission, ajouter :
+Les éléments de démonstration sont disponibles dans les dossiers `demo/` et `docs/` :
 
-- `docs/schema-cablage.png` ou un autre schema de cablage annote
-- `docs/liste-materiel.md` avec les references exactes du materiel
-- `docs/architecture-systeme.png` ou un schema d'architecture equivalent
-- `demo/demo.mp4` ou un lien video public montrant l'application et le materiel
-- Des captures d'ecran dans `demo/screenshots/` si disponibles
-- Le schema de base de donnees ou les notes de configuration dans `docs/`
-
-## Test de lancement externe
-
-Avant de soumettre le depot, tester le projet dans un dossier propre :
-
-```bash
-git clone https://github.com/USERNAME/Esprit-[PI]-[2A5]-2526-ATLAS.git
-cd Esprit-[PI]-[2A5]-2526-ATLAS
-cp .env.example .env
-qmake test.pro.pro
-make
-```
-
-Verifier que :
-
-- Le projet Qt compile sans fichier manquant.
-- Les commandes du README suffisent pour lancer le projet.
-- Les etapes de connexion a la base de donnees sont documentees.
-- Le materiel requis, le cablage et les firmwares sont documentes.
-- Aucun `.env`, cle API, mot de passe, dump de base de donnees, dossier de build ou parametre IDE n'est commite.
+- schéma de câblage : `docs/schema-cablage.png`
+- liste du matériel : `docs/liste-materiel.md`
+- architecture système : `docs/architecture-systeme.png`
+- vidéo de démonstration : `demo/demo.mp4`
+- captures d'écran : `demo/screenshots/`
+- scripts SQL et notes de configuration : `docs/`
 
 ## Auteurs
 
-- Equipe : ATLAS
+- Équipe : ATLAS
 - Classe : 2A5
-- Annee universitaire : 2025-2026
-- Ecole : ESPRIT School of Engineering
+- Année universitaire : 2025-2026
+- École : ESPRIT School of Engineering
 
-Ajouter les noms des membres de l'equipe, le nom de l'encadrant, le lien de demo et le lien de deploiement avant la soumission finale.
