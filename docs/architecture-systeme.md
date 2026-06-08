@@ -64,13 +64,3 @@ Arduino / ESP32 / ESP32-CAM
     v
 Capteurs, actionneurs, RFID, GPS
 ```
-
-## Elements a fournir pour une version finale
-
-Pour renforcer la documentation externe, ajouter :
-
-- un diagramme visuel `docs/architecture-systeme.png` ;
-- une description des ports serie utilises ;
-- une description du DSN Oracle ;
-- une capture de l'application en fonctionnement ;
-- un lien vers la video de demonstration.

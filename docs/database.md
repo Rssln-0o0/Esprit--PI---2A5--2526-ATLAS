@@ -30,32 +30,8 @@ Pour initialiser une base locale de demonstration :
 L'application Qt utilise le driver SQL ODBC. La configuration attendue est documentee dans `.env.example`.
 
 Variables de reference :
-
 ```text
 DB_DSN=Source_Projet2A
 DB_USER=your_oracle_user
 DB_PASSWORD=your_oracle_password
 ```
-
-## Points de securite avant publication
-
-Les scripts SQL doivent rester publiables. Avant tout push vers GitHub, verifier que les fichiers SQL ne contiennent pas :
-
-- mots de passe reels ;
-- emails personnels reels ;
-- numeros de telephone reels ;
-- donnees d'identification reelles ;
-- donnees d'entreprise ou donnees privees ;
-- instructions de creation d'utilisateurs avec mots de passe ;
-- droits Oracle sensibles ou credentials d'administration.
-
-Si des donnees de test sont necessaires, utiliser uniquement des donnees fictives ou anonymisees.
-
-## Recommandation
-
-Pour une publication ESPRIT propre, il est preferable de conserver :
-
-- un script de schema publiable ;
-- un script de donnees de demonstration anonymise ;
-- une documentation de configuration ODBC ;
-- aucune donnee privee exportee depuis un environnement reel.

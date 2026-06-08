@@ -45,13 +45,3 @@ Ce document recense le materiel necessaire pour reproduire la partie embarquee e
 | Jumpers male-male et male-femelle | Connexion des capteurs et actionneurs. |
 | Resistance adaptee | Protection des LEDs et adaptation des signaux si necessaire. |
 | Alimentation externe | Alimentation stable pour les actionneurs si le courant USB est insuffisant. |
-
-## Informations a completer avant soumission
-
-Pour une documentation totalement reproductible, ajouter :
-
-- les references exactes achetees ou utilisees ;
-- les tensions d'alimentation ;
-- les ports utilises pendant la demonstration ;
-- les bibliotheques Arduino necessaires ;
-- les photos du montage final si disponibles.

@@ -52,19 +52,3 @@ Sous Windows avec MinGW :
 qmake .\test.pro.pro
 mingw32-make
 ```
-
-## Points bloquants avant publication
-
-Le depot ne doit pas etre publie si l'un des elements suivants est present :
-
-- fichier `.env` reel ;
-- cle API ou token d'acces ;
-- mot de passe Oracle, SMTP ou autre service ;
-- donnees personnelles non anonymisees ;
-- dump de base de donnees contenant des donnees reelles ;
-- dossier de build lourd ou fichiers generes inutiles ;
-- projet impossible a compiler avec les instructions fournies.
-
-## Resultat attendu
-
-Le depot est considere pret lorsque le projet peut etre compris, configure et lance par une personne externe en suivant uniquement le README et les documents du dossier `docs/`.
